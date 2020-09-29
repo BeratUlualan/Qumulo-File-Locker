@@ -1,0 +1,23 @@
+{
+  "original_file_permissions": [
+    {},
+    {
+      "file": "/test/",
+      "file_id": "2050009",
+      "protection_time": "Mon Sep 28 14:00:47 UTC 2020",
+      "file_last_modified_date": ""
+    },
+    {
+      "file": "/test/deneme01.txt",
+      "file_id": "5510044",
+      "protection_time": "Mon Sep 28 14:01:38 UTC 2020",
+      "file_last_modified_date": "2020-09-28T14:01:27.624687593Z"
+    },
+    {
+      "file": "/test/test01/",
+      "file_id": "5360040",
+      "protection_time": "Mon Sep 28 14:01:38 UTC 2020",
+      "file_last_modified_date": "2020-09-28T14:01:27.624687593Z"
+    }
+  ]
+}
