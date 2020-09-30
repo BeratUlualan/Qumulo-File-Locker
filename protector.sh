@@ -34,7 +34,7 @@ do
 						# qq fs_file_get_attr --id $fileID > $originalAttrFile
 						# qq fs_get_acl --id $fileID --json > $originalACLFile
 						
-					declare -a fileSIDs=$(qq raw GET /v2/files/"$fileID"/info/acl|jq -r '.aces|.[]|.trustee|.sid')
+					declare -a fileSIDs=$(qq fs_get_acl --id $fileID --json|jq -r '.aces|.[]|.trustee|.sid')
 						
 					file=$(qq fs_resolve_paths --id $fileID|jq -r '.[].path')
 					echo $file
@@ -57,7 +57,7 @@ do
 			fi
 		elif [[ $fileType == ""FS_FILE_TYPE_DIRECTORY ]]
 		then
-			declare -a fileSIDs=$(qq raw GET /v2/files/"$fileID"/info/acl|jq -r '.aces|.[]|.trustee|.sid')
+			declare -a fileSIDs=$(qq fs_get_acl --id $fileID --json|jq -r '.aces|.[]|.trustee|.sid')
 			
 			for userSID in ${fileSIDs[@]}
 			do
