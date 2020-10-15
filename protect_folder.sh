@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 echo -en "Protection Policy Name:"
@@ -8,7 +9,7 @@ read protectionPolicy
 protectionUsername="protector"
 
 protectionUserSID=$(qq ad_name_to_accounts -n "$protectionUsername"|jq -r '.[]|.sid')
-#echo $protectionUserSID
+echo $protectionUserSID
 
 #echo -en "Configuration Credential Path:"
 #read dbDirectory
@@ -16,6 +17,9 @@ dbDirectory="/history/protector"
 
 echo -en "Protected Directory Path:"
 read protectedDirectory
+
+echo -en "Commit time:"
+read commitTime
 
 echo -en "Do you want to enable this rule? (yes/no):"
 read protectionEnablement
@@ -35,6 +39,6 @@ monthlyPolicyID=$(qq snapshot_list_policies |jq '.entries|.[]|select (.name|tost
 
 cp $dbDirectory/credentials.json $dbDirectory/.credentials.json.back
 
-jq --arg protectedDirectory "$protectedDirectory" --arg protectionUsername "$protectionUsername" --arg 5minPolicyID "$fiveminPolicyID" --arg dailyPolicyID "$dailyPolicyID" --arg weeklyPolicyID "$weeklyPolicyID" --arg monthlyPolicyID "$monthlyPolicyID" '.main_credentials[.main_credentials|length] |= . + {"protection_enablement":"'$protectionEnablement'","protection_policy":"'$protectionPolicy'","db_directory":"'$dbDirectory'","protected_directory":"'$protectedDirectory'","protection_username":"'$protectionUsername'","protection_user_sid":"'$protectionUserSID'","5min_snapshot_policy_id":"'$fiveminPolicyID'","daily_snapshot_policy_id":"'$dailyPolicyID'","weekly_snapshot_policy_id":"'$weeklyPolicyID'","monthly_snapshot_policy_id":"'$monthlyPolicyID'" ,}'  $dbDirectory/credentials.json > $dbDirectory/credentials.json.temp
+jq --arg protectedDirectory "$protectedDirectory" --arg protectionUsername "$protectionUsername" --arg commitTime "$commitTime" --arg 5minPolicyID "$fiveminPolicyID" --arg dailyPolicyID "$dailyPolicyID" --arg weeklyPolicyID "$weeklyPolicyID" --arg monthlyPolicyID "$monthlyPolicyID" '.main_credentials[.main_credentials|length] |= . + {"protection_enablement":"'$protectionEnablement'","protection_policy":"'$protectionPolicy'","db_directory":"'$dbDirectory'","protected_directory":"'$protectedDirectory'","commit_time":"'$commitTime'","protection_username":"'$protectionUsername'","protection_user_sid":"'$protectionUserSID'","5min_snapshot_policy_id":"'$fiveminPolicyID'","daily_snapshot_policy_id":"'$dailyPolicyID'","weekly_snapshot_policy_id":"'$weeklyPolicyID'","monthly_snapshot_policy_id":"'$monthlyPolicyID'" ,}'  $dbDirectory/credentials.json > $dbDirectory/credentials.json.temp
 
 mv $dbDirectory/credentials.json.temp $dbDirectory/credentials.json
